@@ -19,7 +19,7 @@
         }
         public override string ToString()
         {
-            return base.ToString() + $"{Name} has {Wheels} wheels. ";
+            return base.ToString() + $" {Name} has {Wheels} wheels. ";
         }
     }
 }

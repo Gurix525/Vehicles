@@ -26,6 +26,20 @@
         {
             foreach (var vehicle in VehiclesList) Console.WriteLine(vehicle.ToString());
         }
+        public static void GetVehiclesByTypeImplicit<T>()
+        {
+            foreach (var vehicle in VehiclesList)
+            {
+                if (vehicle is T) Console.WriteLine(vehicle.ToString());
+            }
+        }
+        public static void GetLandVehicles()
+        {
+            foreach (var vehicle in VehiclesList)
+            {
+                if (vehicle is not IAir && vehicle is not IWater) Console.WriteLine(vehicle.ToString());
+            }
+        }
         public void SpeedUp(int speed)
         {
             if (VehicleState == VehicleState.moving)
@@ -117,11 +131,11 @@
             }
             string speed = string.Empty;
             if (VehicleState == VehicleState.moving)
-                speed = $"It is moving at speed {Speed}{unit}.";
+                speed = $" It is moving at speed {Speed}{unit}.";
             string engine = string.Empty;
             if (Engine != null)
-                engine = $"{Name} is run by {GetEngineType()} engine. It's power is {Engine.Power}KM. ";
-            return $"{ID} – {Name} is {GetVehicleState()} on {environment}. {speed} {engine}";
+                engine = $" {Name} is run by {GetEngineType()} engine. It's power is {Engine.Power}KM.";
+            return $"{ID} – {Name} is {GetVehicleState()} on {environment}.{speed}{engine}";
         }
     }
 }

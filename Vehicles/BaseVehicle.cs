@@ -66,18 +66,38 @@
             }
             else Console.WriteLine(Name + " is already stationary.");
         }
-        public override string ToString()
+        private string GetVehicleState()
         {
             string state = string.Empty;
             switch (VehicleState)
             {
                 case VehicleState.moving:
-                    state = "running";
-                    break;
+                    return "running";
                 default:
-                    state = "stationary";
-                    break;
+                    return "stationary";
             }
+        }
+        private string GetEngineType()
+        {
+            if (Engine != null)
+            {
+                switch (Engine.EngineType)
+                {
+                    case EngineType.electricity:
+                        return "electric";
+                    case EngineType.oil:
+                        return "oil";
+                    case EngineType.gas:
+                        return "gas";
+                    default:
+                        return "petrol";
+                }
+            }
+            else return string.Empty;
+        }
+        public override string ToString()
+        {
+            
             string environment = string.Empty;
             string unit = string.Empty;
             switch (Environment)
@@ -99,27 +119,9 @@
             if (VehicleState == VehicleState.moving)
                 speed = $"It is moving at speed {Speed}{unit}.";
             string engine = string.Empty;
-            string engineType = string.Empty;
             if (Engine != null)
-            {
-                switch (Engine.EngineType)
-                {
-                    case EngineType.electricity:
-                        engineType = "electric";
-                        break;
-                    case EngineType.oil:
-                        engineType = "oil";
-                        break;
-                    case EngineType.gas:
-                        engineType = "gas";
-                        break;
-                    default:
-                        engineType = "petrol";
-                        break;
-                }
-                engine = $"{Name} is run by {engineType} engine. It's power is {Engine.Power}KM. ";
-            }
-            return $"{ID} – {Name} is {state} on {environment}.{speed} {engine}";
+                engine = $"{Name} is run by {GetEngineType()} engine. It's power is {Engine.Power}KM. ";
+            return $"{ID} – {Name} is {GetVehicleState()} on {environment}. {speed} {engine}";
         }
     }
 }

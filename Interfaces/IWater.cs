@@ -2,6 +2,6 @@
 {
     internal interface IWater
     {
-        protected int Displacement { get; set; }
+        protected int Displacement { get; }
     }
 }

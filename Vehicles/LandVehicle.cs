@@ -2,9 +2,7 @@
 {
     public class LandVehicle : BaseVehicle, ILand
     {
-        private int _wheels;
-
-        public int Wheels { get => _wheels; private set => _wheels = value; }
+        public int Wheels { get; private set; }
 
         public LandVehicle(string? name = null, Engine? engine = null, int wheels = 4)
         {

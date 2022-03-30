@@ -2,27 +2,17 @@
 {
     public abstract class BaseVehicle : IVehicle
     {
-        private static List<IVehicle> _vehiclesList = new List<IVehicle>();
-        private static int _vehicleCounter = 0;
-        private string _name = string.Empty;
-        private int _ID = 0;
-        private int _speed = 0;
-        private int _minimumSpeed = 0;
-        private int _maximumSpeed = 0;
-        private Environment _environment;
-        private VehicleState _vehicleState = VehicleState.stationary;
-        private Engine? _engine;
 
-        protected static List<IVehicle> VehiclesList { get => _vehiclesList; set => _vehiclesList = value; }
-        protected static int VehicleCounter { get => _vehicleCounter; set => _vehicleCounter = value; }
-        public string Name { get => _name; protected set => _name = value; }
-        public int ID { get => _ID; protected set => _ID = value; }
-        public int Speed { get => _speed; protected set => _speed = value; }
-        public int MinimumSpeed { get => _minimumSpeed; protected set => _minimumSpeed = value; }
-        public int MaximumSpeed { get => _maximumSpeed; protected set => _maximumSpeed = value; }
-        public Environment Environment { get => _environment; protected set => _environment = value; }
-        public VehicleState VehicleState { get => _vehicleState; protected set => _vehicleState = value; }
-        public Engine? Engine { get => _engine; protected set => _engine = value; }
+        protected static List<IVehicle> VehiclesList { get; private set; } = new List<IVehicle>();
+        protected static int VehicleCounter { get; set; } = 0;
+        public string Name { get; protected set; } = String.Empty;
+        public int ID { get; protected set; }
+        public int Speed { get; protected set; }
+        public int MinimumSpeed { get; protected set; }
+        public int MaximumSpeed { get; protected set; }
+        public Environment Environment { get; protected set; } = Environment.land;
+        public VehicleState VehicleState { get; protected set; } = VehicleState.stationary;
+        public Engine? Engine { get; protected set; }
 
         public static int Convert(int speed, Environment convertFrom, Environment convertTo)
         {
@@ -81,22 +71,27 @@
             string state = string.Empty;
             switch (VehicleState)
             {
-                case VehicleState.moving: state = "running";
+                case VehicleState.moving:
+                    state = "running";
                     break;
-                default: state = "stationary";
+                default:
+                    state = "stationary";
                     break;
             }
             string environment = string.Empty;
             string unit = string.Empty;
             switch (Environment)
             {
-                case Environment.air: environment = "air";
+                case Environment.air:
+                    environment = "air";
                     unit = "mps";
                     break;
-                case Environment.water: environment = "water";
+                case Environment.water:
+                    environment = "water";
                     unit = "knots";
                     break;
-                default: environment = "land";
+                default:
+                    environment = "land";
                     unit = "kmph";
                     break;
             }

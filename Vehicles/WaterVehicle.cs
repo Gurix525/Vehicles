@@ -2,9 +2,7 @@
 {
     public class WaterVehicle : BaseVehicle, IWater
     {
-        private int _displacement;
-
-        public int Displacement { get => _displacement; set => _displacement = value; }
+        public int Displacement { get; private set; }
 
         public WaterVehicle(string? name = null, Engine? engine = null, int displacement = 1)
         {

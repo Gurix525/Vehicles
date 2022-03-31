@@ -52,14 +52,33 @@ public static class Program
         amphibiac.Swim();
         amphibiac.SpeedUp(20);
 
+        // Below there are BaseVehicle methods that write down choosen vehicles
+
+        // All vehicles chronologically
         BaseVehicle.GetVehiclesList();
-        //BaseVehicle.GetVehiclesByTypeImplicit<IAir>();
+        
+        // Vehicles by type implicitly (plane is air but also land)
+        //BaseVehicle.GetVehiclesByTypeImplicit<ILand>();
+
+        // Land vehicles explicitly
         //BaseVehicle.GetLandVehicles();
+
+        // All vehicles sorted by speed ascending
         //BaseVehicle.GetVehiclesBySpeedAscending();
+
+        // Only land vehicles sorted by speed descending
         //BaseVehicle.GetLandVehiclesBySpeedDescending();
+
+        // Land vehicles explicitly
         //BaseVehicle.GetVehiclesByTypeExplicit<ILand>();
+
+        // Air vehicles explicitly
         //BaseVehicle.GetVehiclesByTypeExplicit<IAir>();
+
+        // Water vehicles explicitly
         //BaseVehicle.GetVehiclesByTypeExplicit<IWater>();
+
+        // Amphibiac vehicles explicitly
         //BaseVehicle.GetVehiclesByTypeExplicit<IAmphibiac>();
     }
 }

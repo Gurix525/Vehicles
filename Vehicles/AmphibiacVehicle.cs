@@ -1,6 +1,6 @@
 ﻿namespace Vehicles
 {
-    public class AmphibiacVehicle : LandVehicle, IWater
+    public class AmphibiacVehicle : LandVehicle, IWater, IAmphibiac
     {
         public int Displacement { get; set; }
 

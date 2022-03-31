@@ -5,6 +5,7 @@
         protected int ID { get; }
         protected string Name { get; }
         protected int Speed { get; }
+        public int SpeedUnitary { get; }
         protected int MinimumSpeed { get; }
         protected int MaximumSpeed { get; }
         protected Environment Environment { get; }

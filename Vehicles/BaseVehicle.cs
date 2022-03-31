@@ -2,12 +2,30 @@
 {
     public abstract class BaseVehicle : IVehicle
     {
+        private int _speed;
 
         protected static List<IVehicle> VehiclesList { get; private set; } = new List<IVehicle>();
         protected static int VehicleCounter { get; set; } = 0;
         public string Name { get; protected set; } = String.Empty;
         public int ID { get; protected set; }
-        public int Speed { get; protected set; }
+        public int Speed { get => _speed; protected set
+            {
+                _speed = value;
+                switch (Environment)
+                {
+                    case Environment.air:
+                        SpeedUnitary = Speed * 3600 / 1000;
+                        break;
+                    case Environment.water:
+                        SpeedUnitary = Speed * 1852 / 1000;
+                        break;
+                    default:
+                        SpeedUnitary = Speed;
+                        break;
+
+                }
+            } }
+        public int SpeedUnitary { get; private set; } 
         public int MinimumSpeed { get; protected set; }
         public int MaximumSpeed { get; protected set; }
         public Environment Environment { get; protected set; } = Environment.land;
@@ -33,12 +51,68 @@
                 if (vehicle is T) Console.WriteLine(vehicle.ToString());
             }
         }
-        public static void GetLandVehicles()
+        public static void GetVehiclesByTypeExplicit<T>()
+        {
+            Type type = typeof(T);
+            if (type.Equals(typeof(ILand)))
+            {
+                GetLandVehiclesExplicit();
+                return;
+            }
+            if (type.Equals(typeof(IAir)))
+            {
+                GetAirVehiclesExplicit();
+                return;
+            }
+            if (type.Equals(typeof(IWater)))
+            {
+                GetWaterVehiclesExplicit();
+                return;
+            }
+            if (type.Equals(typeof(IAmphibiac)))
+            {
+                GetAmphibiacVehiclesExplicit();
+                return;
+            }
+            throw new ArgumentException("Wrong type selecred. Choose one of following: ILand, IAir, IWater, IAmphibiac");
+        }
+        public static void GetLandVehiclesExplicit()
         {
             foreach (var vehicle in VehiclesList)
             {
                 if (vehicle is not IAir && vehicle is not IWater) Console.WriteLine(vehicle.ToString());
             }
+        }
+        public static void GetAirVehiclesExplicit()
+        {
+            foreach (var vehicle in VehiclesList)
+            {
+                if (vehicle is IAir && !(vehicle is ILand && vehicle is not IAir)) Console.WriteLine(vehicle.ToString());
+            }
+        }
+        public static void GetWaterVehiclesExplicit()
+        {
+            foreach (var vehicle in VehiclesList)
+            {
+                if (vehicle is IWater && vehicle is not ILand) Console.WriteLine(vehicle?.ToString());
+            }
+        }
+        public static void GetAmphibiacVehiclesExplicit()
+        {
+            foreach (var vehicle in VehiclesList)
+            {
+                if (vehicle is IAmphibiac) Console.WriteLine(vehicle?.ToString());
+            }
+        }
+        public static void GetVehiclesBySpeedAscending()
+        {
+            List<IVehicle> vehiclesBySpeedAscending = VehiclesList.OrderBy(v => v.SpeedUnitary).ToList();
+            foreach (var vehicle in vehiclesBySpeedAscending) Console.WriteLine(vehicle.ToString());
+        }
+        public static void GetLandVehiclesBySpeedDescending()
+        {
+            var landVehiclesBySpeedDescending = VehiclesList.Where(v => v is not IAir && v is not IWater).OrderByDescending(v => v.SpeedUnitary).ToList();
+            foreach (var vehicle in landVehiclesBySpeedDescending) Console.WriteLine(vehicle.ToString());
         }
         public void SpeedUp(int speed)
         {
@@ -52,7 +126,7 @@
         }
         public void SlowDown(int speed)
         {
-            if (VehicleState != VehicleState.moving)
+            if (VehicleState == VehicleState.moving)
             {
                 Speed -= speed;
                 if (Speed < MinimumSpeed) Speed = MinimumSpeed;
